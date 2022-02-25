@@ -1,11 +1,7 @@
 import whatismyip
 import requests
-from bs4 import BeautifulSoup
 import random
-
-#print(whatismyip.whatismyipv4())
-#print(whatismyip.whatismyipv6())
-#print(whatismyip.whatismyhostname())
+from bs4 import BeautifulSoup
 
 ip = whatismyip.whatismyipv4()
 url = 'https://iknowwhatyoudownload.com/en/peer/?ip=' + ip
@@ -19,16 +15,18 @@ headers = {'user-agent': Agent}
 r = requests.get(url, headers=headers)
 
 soup = BeautifulSoup(r.content, 'html.parser')
-
-title = soup.find('title')
 mydiv = soup.find_all("thead", class_='header-torrents')
-
 nameTag = soup.find_all("div", class_='torrent_files')
-print("Peer IP: " + ip)
-print('Torrent Filenames: ')
-for div in nameTag:
-    print(div.a.contents[0])
 
+
+if __name__ == "__main__":
+    print("\nPeer IP: " + ip)
+    print('\nTorrent Filenames: ')
+    for div in nameTag:
+        print(div.a.contents[0])
+        break
+    else:
+        print("No public IP torrents found")
 
 
 
